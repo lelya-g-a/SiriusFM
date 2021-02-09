@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <ctime>
+#include <tuple>
 #include <stdexcept>
 
 namespace SiriusFM
@@ -18,10 +19,10 @@ namespace SiriusFM
     private:
         long const          m_MaxL;
         long const          m_MaxP;
-        double *            m_paths;
-      /*  
+        double *            m_paths;  
         long                m_L;     // m_L <= m_MaxL
         long                m_P;     // m_P <= m_MaxP
+      /*
         double              m_tau;   // Time Step as Year Froction
         double              m_t0;    // 2021.****
         Diffusion1D const * m_diff;
@@ -36,10 +37,10 @@ namespace SiriusFM
         MCEngine1D (long a_MaxL, long a_MaxP) :
             m_MaxL  (a_MaxL),
             m_MaxP  (a_MaxP),
-            m_paths (new double [m_MaxL * m_MaxP])
-          /* 
+            m_paths (new double [m_MaxL * m_MaxP]), 
             m_L     (0),
-            m_P     (0),
+            m_P     (0)
+          /*
             m_tau   (nan),
             m_t0    (nan),
             m_diff  (nullptr),
@@ -65,13 +66,14 @@ namespace SiriusFM
         }
 
 
-        double * Access_to_last ()
+        std::tuple <long, long, double const *> Get_paths () const
         {
-            return m_paths + (m_MaxL * m_MaxP - 1);
+            return (m_L <= 0 || m_P <= 0) ? std::make_tuple(0, 0, nullptr)
+                                          : std::make_tuple(m_L, m_P, m_paths);
         }
 
 
-        inline std::pair <long, long> Simulate 
+        inline void Simulate 
             (time_t            a_t0,     // Pricing Time 
              time_t            a_T,      // Expir. Time
              int               a_tau_min,
@@ -95,4 +97,3 @@ namespace SiriusFM
         }
     };
 }
-

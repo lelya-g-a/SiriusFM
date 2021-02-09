@@ -13,7 +13,7 @@ namespace SiriusFM
               typename AssetClassA,
               typename AssetClassB>
 
-    inline std::pair <long, long> MCEngine1D
+    inline void MCEngine1D
         <Diffusion1D,
          AProvider,
          BProvider,
@@ -140,7 +140,8 @@ namespace SiriusFM
             } // End of l Loop
         }
 
-        return std::make_pair(L, P);
+        m_L = L;
+        m_P = P;
     }
 
 }
