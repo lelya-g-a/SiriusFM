@@ -71,7 +71,7 @@ namespace SiriusFM
         }
 
 
-        inline void Simulate 
+        inline std::pair <long, long> Simulate 
             (time_t            a_t0,     // Pricing Time 
              time_t            a_T,      // Expir. Time
              int               a_tau_min,

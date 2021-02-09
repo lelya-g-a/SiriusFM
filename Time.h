@@ -2,6 +2,7 @@
 
 #define AVG_YEAR    365.25
 #define SEC_IN_YEAR 86400.0
+#define SEC_IN_MIN  60
 #define MIN_IN_YEAR 1440.0
 #define REF_POINT   1970.0
 

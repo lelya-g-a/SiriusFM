@@ -13,7 +13,7 @@ namespace SiriusFM
               typename AssetClassA,
               typename AssetClassB>
 
-    inline void MCEngine1D
+    inline std::pair <long, long> MCEngine1D
         <Diffusion1D,
          AProvider,
          BProvider,
@@ -42,12 +42,20 @@ namespace SiriusFM
                 a_tau_min >  0                      &&
                 a_P       >  0);
 
-        double y0  = YearFrac(a_t0);
-        double yT  = YearFrac(a_T);
-        double tau = double(a_tau_min) / (AVG_YEAR * MIN_IN_YEAR);
-        long   L   = long(ceil((yT - y0) / tau)) + 1; // Path Length
-        assert(L >= 2);
-        long   P   = 2 * a_P; // Antithetic variables
+        double y0      = YearFrac(a_t0);
+        double yT      = YearFrac(a_T);
+        //double tau   = double(a_tau_min) / (AVG_YEAR * MIN_IN_YEAR);
+        // long   L    = long(ceil((yT - y0) / tau)) + 1; 
+                                            // Вычислительная неустойчивость
+        // assert(L >= 2);
+        time_t T_sec   = a_T - a_t0;
+        time_t tau_sec = a_tau_min * SEC_IN_MIN;
+        long   L       = (T_sec % tau_sec == 0) ? T_sec / tau_sec
+                                                : T_sec / tau_sec + 1; 
+                                                // Path Length
+        double tau     = YearFrac(tau_sec);
+        L++; // L:#nodes
+        long   P       = 2 * a_P; // Antithetic variables
         
         if (L * P > m_MaxL * m_MaxP)
         {
@@ -58,10 +66,13 @@ namespace SiriusFM
         std::mt19937_64          U;
         
         double stau  = sqrt(tau);
-        double tlast = yT - y0 - double(L-2) * tau;
+        double tlast = (T_sec % tau_sec == 0) ? tau
+                       : YearFrac(T_sec - (L-1) * tau_sec);
+        assert(tlast <= tau &&
+               tlast >  0);
         double slast = sqrt(tlast);
-        assert (slast <= stau &&
-                slast >  0);
+        assert(slast <= stau &&
+               slast >  0);
 
         // Main Simulation Loop
         for (long p = 0; p < a_P; ++p)
@@ -128,6 +139,8 @@ namespace SiriusFM
                 Sp1 = Sn1;
             } // End of l Loop
         }
+
+        return std::make_pair(L, P);
     }
 
 }
