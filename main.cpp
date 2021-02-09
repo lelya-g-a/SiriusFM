@@ -42,7 +42,8 @@ int main (int argc, char * argv[])
 
     time_t t0 = time(NULL);
     time_t T  = t0 + T_days * SEC_IN_DAY;
-    time_t Ty = double(T_days) / AVG_YEAR;
+    double Ty = double(T_days) / AVG_YEAR;
+    cout << Ty << endl;
     mce.Simulate <false>
         (t0, T, tau_min, s0, P, &diff, &irp, &irp, ccyA, ccyA);
 
@@ -82,9 +83,9 @@ int main (int argc, char * argv[])
     double sigma2E = VarST / Ty;
     double muE     = (EST + VarST / 2.0) / Ty;
 
-    cout << "mu = " << mu << ", MuE = " << muE << endl;
+    cout << "mu = " << mu << ", muE = " << muE << endl;
     cout << "sigma2 = " << sigma * sigma;
-    cout << ", sigma2E " << sigma2E << endl;
+    cout << ", sigma2E = " << sigma2E << endl;
 
     return 0;
 }

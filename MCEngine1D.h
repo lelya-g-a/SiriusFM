@@ -73,18 +73,18 @@ namespace SiriusFM
         }
 
 
+        template <bool IsRN>
         inline void Simulate 
-            (time_t            a_t0,     // Pricing Time 
-             time_t            a_T,      // Expir. Time
-             int               a_tau_min,
-             double            a_s0,     // Start 
-             long              a_P,      // Paths number
-             Diffusion1D const a_diff,
-             AProvider const * a_rateA,
-             BProvider const * a_rateB,
-             AssetClassA       a_A,
-             AssetClassB       a_B,
-             bool              a_isRN);
+            (time_t              a_t0,     // Pricing Time 
+             time_t              a_T,      // Expir. Time
+             int                 a_tau_min,
+             double              a_s0,     // Start 
+             long                a_P,      // Paths number
+             Diffusion1D const * a_diff,
+             AProvider   const * a_rateA,
+             BProvider   const * a_rateB,
+             AssetClassA         a_A,
+             AssetClassB         a_B);
 
 
         MCEngine1D (const MCEngine1D &) = delete;

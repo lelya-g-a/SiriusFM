@@ -8,6 +8,11 @@ namespace SiriusFM
 {
     IRProvider <IRModeE::Const> :: IRProvider (char const * a_file)
     {
+        if (a_file == nullptr || * a_file == '\0')
+        {
+            return;
+        }
+
         char buff_num[BUFF_SIZE];
         char buff_ccy[CCY_SIZE + 1];
 

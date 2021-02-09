@@ -15,7 +15,8 @@ namespace SiriusFM
         RUB = 4,
         JPY = 5,
         CNY = 6,
-        N   = 7
+        ZZZ = 7,
+        N   = 8
     };
 
 
@@ -29,6 +30,7 @@ namespace SiriusFM
             case CcyE::RUB : return "RUB";
             case CcyE::JPY : return "JPY";
             case CcyE::CNY : return "CNY";
+            case CcyE::ZZZ : return "ZZZ";
             default        : throw std::invalid_argument("Wrong ccy");
         }
     }
@@ -59,6 +61,10 @@ namespace SiriusFM
         else if (!strcmp(a_str, "CNY"))
         {
             return CcyE::CNY;
+        }
+        else if (!strcmp(a_str, "ZZZ"))
+        {
+            return CcyE::ZZZ;
         }
         else
         {

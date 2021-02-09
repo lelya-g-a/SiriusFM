@@ -13,6 +13,7 @@ namespace SiriusFM
               typename AssetClassA,
               typename AssetClassB>
 
+    template <bool IsRN>
     inline void MCEngine1D
         <Diffusion1D,
          AProvider,
@@ -20,17 +21,16 @@ namespace SiriusFM
          AssetClassA,
          AssetClassB> 
         ::Simulate
-        (time_t            a_t0,     // Pricing Time 
-         time_t            a_T,      // Expir. Time
-         int               a_tau_min,
-         double            a_s0,     // Start
-         long              a_P,      // Paths number
-         Diffusion1D const a_diff,
-         AProvider const * a_rateA,
-         BProvider const * a_rateB,
-         AssetClassA       a_A,
-         AssetClassB       a_B,
-         bool              a_isRN)
+        (time_t              a_t0,     // Pricing Time 
+         time_t              a_T,      // Expir. Time
+         int                 a_tau_min,
+         double              a_s0,     // Start
+         long                a_P,      // Paths number
+         Diffusion1D const * a_diff,
+         AProvider   const * a_rateA,
+         BProvider   const * a_rateB,
+         AssetClassA         a_A,
+         AssetClassB         a_B)
     {
         // Verifications
         assert (a_diff    != nullptr                &&
@@ -43,31 +43,27 @@ namespace SiriusFM
                 a_P       >  0);
 
         double y0      = YearFrac(a_t0);
-        double yT      = YearFrac(a_T);
-        //double tau   = double(a_tau_min) / (AVG_YEAR * MIN_IN_YEAR);
-        // long   L    = long(ceil((yT - y0) / tau)) + 1; 
-                                            // Вычислительная неустойчивость
-        // assert(L >= 2);
         time_t T_sec   = a_T - a_t0;
         time_t tau_sec = a_tau_min * SEC_IN_MIN;
         long   L_segm  = (T_sec % tau_sec == 0) ? T_sec / tau_sec
                                                 : T_sec / tau_sec + 1; 
                                                 // Segments number
-        double tau     = YearFrac(tau_sec);
+        double tau     = YearFrac_Int(tau_sec);
         long   L       = L_segm + 1; // Nodes number
         long   P       = 2 * a_P; // Antithetic variables
         
         if (L * P > m_MaxL * m_MaxP)
         {
-            throw std::invalid_argument("Wrong paths");
+           throw std::invalid_argument("Wrong paths");
         }
 
         std::normal_distribution N01(0.0, 1.0);
         std::mt19937_64          U;
         
         double stau  = sqrt(tau);
-        double tlast = (T_sec % tau_sec == 0) ? tau
-                       : YearFrac(T_sec - (L-1) * tau_sec);
+        double tlast = (T_sec % tau_sec == 0) 
+                       ? tau
+                       : YearFrac_Int(T_sec - (L-1) * tau_sec);
         assert(tlast <= tau &&
                tlast >  0);
         double slast = sqrt(tlast);
@@ -93,7 +89,7 @@ namespace SiriusFM
                 double mu0 = 0.0;
                 double mu1 = 0.0;
                 
-                if (a_isRN)
+                if (IsRN)
                 {
                     double delta_r = 
                         a_rateB -> r(a_B, y) - a_rateA -> r(a_A, y);
@@ -145,9 +141,3 @@ namespace SiriusFM
     }
 
 }
-
-// Запретить copy constuctor
-// Запретить оператор присваивания
-// Заполнить нулями матрицу в самом начале (цикл)
-// Сделать accessor, который дал бы доступ к последнему элементу массива
-// destuctor (освободить память) - delete [] m_paths;
