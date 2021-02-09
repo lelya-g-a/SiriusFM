@@ -50,11 +50,11 @@ namespace SiriusFM
         // assert(L >= 2);
         time_t T_sec   = a_T - a_t0;
         time_t tau_sec = a_tau_min * SEC_IN_MIN;
-        long   L       = (T_sec % tau_sec == 0) ? T_sec / tau_sec
+        long   L_segm  = (T_sec % tau_sec == 0) ? T_sec / tau_sec
                                                 : T_sec / tau_sec + 1; 
-                                                // Path Length
+                                                // Segments number
         double tau     = YearFrac(tau_sec);
-        L++; // L:#nodes
+        long   L       = L_segm + 1; // Nodes number
         long   P       = 2 * a_P; // Antithetic variables
         
         if (L * P > m_MaxL * m_MaxP)
