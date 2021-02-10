@@ -77,8 +77,7 @@ namespace SiriusFM
         inline void Simulate 
             (time_t              a_t0,     // Pricing Time 
              time_t              a_T,      // Expir. Time
-             int                 a_tau_min,
-             double              a_s0,     // Start 
+             int                 a_tau_min, 
              long                a_P,      // Paths number
              Diffusion1D const * a_diff,
              AProvider   const * a_rateA,
@@ -89,7 +88,7 @@ namespace SiriusFM
 
         MCEngine1D (const MCEngine1D &) = delete;
 
-        void operator = (const MCEngine1D &) = delete;
+        MCEngine1D & operator = (const MCEngine1D &) = delete;
         
         ~ MCEngine1D ()
         {

@@ -24,7 +24,6 @@ namespace SiriusFM
         (time_t              a_t0,     // Pricing Time 
          time_t              a_T,      // Expir. Time
          int                 a_tau_min,
-         double              a_s0,     // Start
          long                a_P,      // Paths number
          Diffusion1D const * a_diff,
          AProvider   const * a_rateA,
@@ -76,12 +75,12 @@ namespace SiriusFM
             double * path0 = m_paths + 2 * p * L;
             double * path1 = path0 + L;
             
-            path0[0] = a_s0;
-            path1[0] = a_s0;
+            path0[0] = a_diff -> GetS0();
+            path1[0] = a_diff -> GetS0();
 
             double y   = y0;
-            double Sp0 = a_s0;
-            double Sp1 = a_s0;
+            double Sp0 = a_diff -> GetS0();
+            double Sp1 = a_diff -> GetS0();
 
             for (long l = 1; l < L; ++l)
             {
