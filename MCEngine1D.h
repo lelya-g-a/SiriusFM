@@ -60,7 +60,7 @@ namespace SiriusFM
             {
                 for (long l = 0; l < m_MaxL; ++l)
                 {
-                    m_paths[p*m_MaxL + l] = 0;
+                    m_paths[p * m_MaxL + l] = 0;
                 }
             }
         }
