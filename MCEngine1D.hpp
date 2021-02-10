@@ -116,7 +116,7 @@ namespace SiriusFM
                 if (l == L - 1)
                 {
                     Sn0 = Sp0 + mu0 * tlast + sigma0 * Z * slast;
-                    Sn1 = Sn0 + mu1 * tlast - sigma1 * Z * slast;
+                    Sn1 = Sp1 + mu1 * tlast - sigma1 * Z * slast;
 
                     y += tlast;
                 }
