@@ -1,5 +1,5 @@
 #include "DiffusionGBM.h"
-#include "IRProviderConst.h"
+#include "IRProviderConst.hpp"
 #include "MCEngine1D.hpp"
 
 using namespace std;

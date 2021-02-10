@@ -22,16 +22,6 @@ namespace SiriusFM
         double *            m_paths;  
         long                m_L;     // m_L <= m_MaxL
         long                m_P;     // m_P <= m_MaxP
-      /*
-        double              m_tau;   // Time Step as Year Froction
-        double              m_t0;    // 2021.****
-        Diffusion1D const * m_diff;
-        AProvider   const * m_rateA;
-        BProvider   const * m_rateB;
-        AssetClassA         m_A;     // Asset A
-        AssetClassB         m_B;     // Asset B
-        bool                m_isRN;  // Risk-Neutral Trend
-      */
 
     public:
         MCEngine1D (long a_MaxL, long a_MaxP) :
@@ -40,16 +30,6 @@ namespace SiriusFM
             m_paths (new double [m_MaxL * m_MaxP]), 
             m_L     (0),
             m_P     (0)
-          /*
-            m_tau   (nan),
-            m_t0    (nan),
-            m_diff  (nullptr),
-            m_rateA (nullptr),
-            m_rateB (nullptr),
-            m_A     (AssetClassA::UNDEFINED),
-            m_B     (AssetClassB::UNDEFINED),
-            m_isRN    (false)
-          */
         {
             if (m_MaxL <= 0 || m_MaxP <= 0)
             {

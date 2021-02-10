@@ -20,11 +20,10 @@ namespace SiriusFM
         }
     
         virtual double payoff (long a_L,
-                               double const * a_t,
-                               double const * a_S) const override
+                               double const * a_S,
+                               double const * a_t = nullptr) const override
         {
-            assert(a_L >  0       &&
-                  // a_t != nullptr &&
+            assert(a_L >  0  &&
                    a_S != nullptr);
             return std::max <double> (a_S[a_L - 1] - m_K, 0.0);
         }
@@ -49,11 +48,10 @@ namespace SiriusFM
         }
     
         virtual double payoff (long a_L,
-                               double const * a_t,
-                               double const * a_S) const override
+                               double const * a_S,
+                               double const * a_t = nullptr) const override
         {
-            assert(a_L >  0       &&
-                  // a_t != nullptr &&
+            assert(a_L >  0 &&
                    a_S != nullptr);
             return std::max <double> (m_K - a_S[a_L - 1], 0.0);
         }

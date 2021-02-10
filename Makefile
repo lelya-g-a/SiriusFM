@@ -1,6 +1,6 @@
 TARGET = run
 
-SOURCES = Test2 IRProviderConst
+SOURCES = Test2
 
 EXTLIBS =
 

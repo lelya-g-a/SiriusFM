@@ -20,8 +20,8 @@ namespace SiriusFM
     public:
         virtual double payoff 
             (long a_L,
-             double const * a_t,
-             double const * a_S) const = 0;
+             double const * a_S,
+             double const * a_t = nullptr) const = 0;
 
         bool IsAmerican () const
         {

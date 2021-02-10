@@ -1,5 +1,5 @@
 #include "DiffusionGBM.h"
-#include "IRProviderConst.h"
+#include "IRProviderConst.hpp"
 #include "MCEngine1D.hpp"
 #include "VanillaOption.h"
 
@@ -81,7 +81,7 @@ int main (int argc, char * argv[])
         }
         ++NVP;
 
-        double RT = option -> payoff(L1, nullptr, path);
+        double RT = option -> payoff(L1, path);
         EST  += RT;
         EST2 += RT * RT;
     }
