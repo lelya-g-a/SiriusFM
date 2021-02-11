@@ -12,13 +12,17 @@ namespace SiriusFM
         double const m_s0;
     public:
         DiffusionGBM (double a_mu, double a_sigma, double a_s0) : 
-        m_mu(a_mu),
-        m_sigma(a_sigma),
-        m_s0(a_s0)
+        m_mu    (a_mu),
+        m_sigma (a_sigma),
+        m_s0    (a_s0)
         {
             if (m_sigma <= 0)
             {
                 throw std::invalid_argument("Negative sigma");
+            }
+            if (m_s0 <= 0)
+            {
+                throw std::invalid_argument("Negative start");
             }
         }
 
@@ -32,7 +36,7 @@ namespace SiriusFM
             return ((a_S < 0) ? 0 : m_sigma * a_S);
         }
 
-        double GetS0 () const
+        double GetStart () const
         {
             return m_s0;
         }

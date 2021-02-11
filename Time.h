@@ -1,13 +1,13 @@
 #pragma once
 
-#define AVG_YEAR   365.25
-#define SEC_IN_DAY 86400.0
-#define SEC_IN_MIN 60.0
-#define MIN_IN_DAY 1440.0
-#define REF_POINT  1970.0
-
 namespace SiriusFM
 {
+    constexpr double AVG_YEAR   = 365.25;
+    constexpr double REF_POINT  = 1970.0;
+    constexpr int    SEC_IN_DAY = 86400;
+    constexpr int    SEC_IN_MIN = 60;
+    constexpr int    MIN_IN_DAY = 1440;
+
     inline double YearFrac (time_t a_t)
     {
         // Avg year in seconds
@@ -16,7 +16,7 @@ namespace SiriusFM
     } 
     
     
-    inline double YearFrac_Int (time_t a_t)
+    inline double YearFracInt (time_t a_t)
     {
         // Avg year in seconds
         constexpr double SecY = AVG_YEAR * SEC_IN_DAY;

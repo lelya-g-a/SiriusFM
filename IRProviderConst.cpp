@@ -1,11 +1,12 @@
 #include <cstdlib>
 #include <cstdio>
 #include "IRProviderConst.h"
-#define BUFF_SIZE 256
-#define CCY_SIZE 3
 
 namespace SiriusFM
 {
+    constexpr int BUFF_SIZE = 256;
+    constexpr int CCY_SIZE  = 3;
+
     IRProvider <IRModeE::Const> :: IRProvider (char const * a_file)
     {
         if (a_file == nullptr || * a_file == '\0')

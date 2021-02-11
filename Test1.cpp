@@ -1,9 +1,9 @@
 #include "DiffusionGBM.h"
-#include "IRProviderConst.hpp"
+#include "IRProviderConst.h"
 #include "MCEngine1D.hpp"
 
-using namespace std;
 using namespace SiriusFM;
+
 
 int main (int argc, char * argv[])
 {
@@ -12,7 +12,7 @@ int main (int argc, char * argv[])
 
     if (argc != 7)
     {
-        cerr << "Params: mu, sigma, s0, T_days, tau_min, P" << endl;
+        std::cerr << "Params: mu, sigma, s0, T_days, tau_min, P" << std::endl;
         return 1;
     }
 
@@ -30,7 +30,7 @@ int main (int argc, char * argv[])
         tau_min <= 0 ||
         P       <= 0) 
     {
-        cerr << "All parametrs should be positive"; 
+        std::cerr << "All parametrs should be positive" << std::endl; 
         return 1;
     }
 
@@ -85,9 +85,10 @@ int main (int argc, char * argv[])
     double sigma2E = VarST / Ty;
     double muE     = (EST + VarST / 2.0) / Ty;
 
-    cout << "mu = " << mu << ", muE = " << muE << endl;
-    cout << "sigma2 = " << sigma * sigma;
-    cout << ", sigma2E = " << sigma2E << endl;
+    std::cout << "mu = " << mu;
+    std::cout << ", muE = " << muE << std::endl;
+    std::cout << "sigma2 = " << sigma * sigma;
+    std::cout << ", sigma2E = " << sigma2E << std::endl;
 
     return 0;
 }
