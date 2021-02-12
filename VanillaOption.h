@@ -19,7 +19,7 @@ namespace SiriusFM
                        double      a_K, 
                        time_t      a_expirTime) :
             Option <AssetClassA, AssetClassB> 
-                (a_assetA, a_assetB, false, a_expirTime),
+                (a_assetA, a_assetB, a_expirTime, false),
             m_K(a_K)
         {
             if (m_K <= 0)

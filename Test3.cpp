@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 	MCOptionPricer1D <decltype(diff), IRPConst, IRPConst, CcyE, CcyE> 
 		Pricer(&diff, ratesFileA, ratesFileB, useTimerSeed); 
 
-	time_t t0 = time(nullptr);
+	time_t t0 = time(NULL);
 	time_t T  = t0 + SEC_IN_DAY * expirTime;
 
 	OptionFX const* opt = nullptr;
@@ -57,6 +57,8 @@ int main(int argc, char** argv)
 		throw std::invalid_argument("Bad OptType");
 
 	double px = Pricer.Px(opt, t0, tau_mins, P);
+
+    std::cout << px << std::endl;
 
 	delete opt;
 	return 0;

@@ -18,7 +18,7 @@ namespace SiriusFM
         Option (AssetClassA a_assetA, 
                 AssetClassB a_assetB,
                 time_t      a_expirTime,
-                bool a_isAmerican) :
+                bool        a_isAmerican) :
             m_assetA     (a_assetA),
             m_assetB     (a_assetB),
             m_expirTime  (a_expirTime),

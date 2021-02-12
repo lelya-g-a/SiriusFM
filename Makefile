@@ -8,10 +8,10 @@ CXXFLAGS += -MP -MMD -fPIC
 CXXFLAGS += -std=c++17
 CXXFLAGS += -O0 -g
 
-LDFLAGS += -fPIC
-LDFLAGS += -pthread
-LDFLAGS += -Wl,--as-needed
-LDFLAGS += -Wl,--no-undefined
+#LDFLAGS += -fPIC
+#LDFLAGS += -pthread
+#LDFLAGS += -Wl,--as-needed
+#LDFLAGS += -Wl,--no-undefined
 
 
 BUILD_DIR = $(shell pwd)
