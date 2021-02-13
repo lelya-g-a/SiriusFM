@@ -12,7 +12,7 @@ namespace SiriusFM
               typename AssetClassB>
 
     class MCOptionPricer1D
-    {
+    {    
     private:
         // Path Evaluator for Option Pricing
         class OPPathEval

@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 	char const* ratesFileB = nullptr; //todo
 	bool useTimerSeed      = true;    //to read from file
 
-	DiffusionGBM diff(mu, sigma, S0);
+    DiffusionGBM diff(mu, sigma, S0);
 	
 	//pricer for FX
 	MCOptionPricer1D <decltype(diff), IRPConst, IRPConst, CcyE, CcyE> 

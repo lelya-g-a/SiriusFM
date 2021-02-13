@@ -12,7 +12,7 @@ namespace SiriusFM
         double const m_sigma;
         double const m_beta;
         double const m_s0;
-    private:
+    public:
         DiffusionCEV (double a_mu,   double a_sigma, 
                       double a_beta, double a_s0) : 
         m_mu    (a_mu),
