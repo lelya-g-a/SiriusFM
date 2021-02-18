@@ -21,9 +21,13 @@ namespace SiriusFM
         }
 
         // Discount Factor:
+        // D(t,T) = E[exp{- integral(r_t*dt) from t to T}]
+        // In this case r_t = const
+        // Time in years
         double DF (CcyE a_ccy, time_t a_t0, time_t a_t1) const
         {
             double y = YearFracInt(a_t1 - a_t0);
+            // exp{-r*y}
             return exp(- m_IRs[int(a_ccy)] * y);
         }
     };

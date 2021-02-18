@@ -19,28 +19,33 @@ namespace SiriusFM
                              AssetClassB> 
         :: Px 
             (Option <AssetClassA, AssetClassB> const * a_option,
-             time_t            a_t0, 
-             int               a_tauMins,
-             long              a_P)
+             time_t a_t0,      // Start Time
+             int    a_tauMins, // Time step
+             long   a_P)       // Paths number
     {
-        assert(a_option    != nullptr &&  
-               a_tauMins   >  0       &&
-               a_P         >  0);
+        assert(a_option  != nullptr &&  
+               a_tauMins >  0       &&
+               a_P       >  0);
+
+        if (a_option -> IsAmerican())
+        {
+            throw std::invalid_argument("MC cannot price American options");
+        }
 
         // Path Elevator:
         OPPathEval pathEval (a_option);
 
-        // Get the price from PathEval:
+        // Using Simulate:
         m_mce.template Simulate <true> 
-            (a_t0, a_option -> m_expirTime, a_tauMins, a_P, m_useTimerSeed,
-             m_diff, &m_irpA, &m_irpB, a_option -> m_assetA, 
-             a_option -> m_assetB, &pathEval);
+            (a_t0, a_option -> ExpirTime(), a_tauMins, a_P, m_useTimerSeed,
+             m_diff, &m_irpA, &m_irpB, a_option -> AssetA(), 
+             a_option -> AssetB(), &pathEval);
 
         // Get the price from PathEval:
         double px = pathEval.GetPx();
 
         // Apply the Discount Factor on B:
-        px *= m_irpB.DF (a_option -> m_assetB, a_t0, a_option -> m_expirTime);
+        px *= m_irpB.DF (a_option -> AssetB(), a_t0, a_option -> ExpirTime());
         return px;
     }
 }

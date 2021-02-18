@@ -4,14 +4,20 @@
 
 namespace SiriusFM
 {
-    constexpr int BUFF_SIZE = 256;
-    constexpr int CCY_SIZE  = 3;
-
+    // Read currencies interest rates values from the file
     IRProvider <IRModeE::Const> :: IRProvider (char const * a_file)
-    {
+    {    
+        constexpr int BUFF_SIZE = 256;
+        constexpr int CCY_SIZE  = 3;
+       // Zero-out all the rates 
+        for (int k = 0; k < int(CcyE::N); ++k)
+        {
+            m_IRs[k] = 0;
+        }
+
         if (a_file == nullptr || * a_file == '\0')
         {
-            return;
+            throw std::runtime_error("Cannot open file");
         }
 
         char buff_num[BUFF_SIZE];

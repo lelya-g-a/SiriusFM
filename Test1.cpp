@@ -49,6 +49,7 @@ int main (int argc, char * argv[])
     double Ty = double(T_days) / AVG_YEAR;
     mce.Simulate <false>
         (t0, T, tau_min, P, &diff, &irp, &irp, ccyA, ccyA);
+
     auto res = mce.Get_paths();
     long L1  = get<0>(res);
     long P1  = get<1>(res);

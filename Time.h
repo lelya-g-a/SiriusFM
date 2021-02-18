@@ -11,16 +11,14 @@ namespace SiriusFM
 
     inline double YearFrac (time_t a_t)
     {
-        // Avg year in seconds
-        constexpr double SecY = AVG_YEAR * SEC_IN_DAY;
-        return REF_POINT + double(a_t) / SecY;
-    } 
+        // Time: from secs to years
+        return REF_POINT + double(a_t) / AVG_YEAR_SEC;
+    }
     
     
     inline double YearFracInt (time_t a_t)
     {
-        // Avg year in seconds
-        constexpr double SecY = AVG_YEAR * SEC_IN_DAY;
-        return double(a_t) / SecY;
+        // Time difference: from secs to years, 
+        return double(a_t) / AVG_YEAR_SEC;
     }
 }

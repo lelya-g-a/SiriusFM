@@ -43,8 +43,9 @@ namespace SiriusFM
             {
                 for (long p = 0; p < a_PM; ++p)
                 {
-                    double const * path = a_paths + p * a_L;
-                    double payOff       = m_option -> PayOff(a_L, path, a_ts);
+                    double const * path   = a_paths + p * a_L;
+                    double         payOff = m_option -> PayOff(a_L, path, a_ts);
+
                     m_sum  += payOff;
                     m_sum2 += payOff * payOff;
                     m_minPO = std::min <double> (m_minPO, payOff);
@@ -74,6 +75,7 @@ namespace SiriusFM
                 double px  = m_sum / double(m_P);
                 double var = (m_sum2 - double(m_P) * px * px) / double(m_P - 1);
                 assert(var >= 0);
+                
                 return std::make_tuple(sqrt(var), m_minPO, m_maxPO);
             }
         };
@@ -89,10 +91,11 @@ namespace SiriusFM
                     BProvider,
                     AssetClassA,
                     AssetClassB,
-                    OPPathEval > m_mce;
+                    OPPathEval > 
+                   m_mce;
         bool       m_useTimerSeed;
     public:
-        // Non-Default Ctor
+        // Non-Default Constructor
         MCOptionPricer1D (Diffusion1D const * a_diff,
                           const char *        a_irs_fileA,
                           const char *        a_irs_fileB,

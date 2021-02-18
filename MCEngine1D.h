@@ -1,3 +1,5 @@
+// Monte-Carlo Method
+
 #pragma once
 
 #include <cmath>
@@ -46,10 +48,11 @@ namespace SiriusFM
         }
 
 
+        // Directly implementation of the method
         template <bool IsRN>
         inline void Simulate 
             (time_t              a_t0,          // Pricing Time 
-             time_t              a_T,           // Expir. Time
+             time_t              a_T,           // Expiration Time
              int                 a_tauMins, 
              long                a_P,           // Paths number
              bool                a_useTimerSeed,

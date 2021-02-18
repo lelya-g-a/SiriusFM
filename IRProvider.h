@@ -1,3 +1,6 @@
+// Interest Rate Provider
+// All about currencies
+
 #pragma once
 
 #include <cstring>
@@ -73,6 +76,7 @@ namespace SiriusFM
     }
 
 
+    // A way to get the interest rates
     enum class IRModeE
     {
         Const    = 0,

@@ -28,11 +28,11 @@ namespace SiriusFM
             BProvider                         const * const m_irpB;
             double *                                        m_ratesA;
             double *                                        m_ratesB;
+            
             // Hedging policy:
             double    const         m_C0;        // Inintial Option premium
             DeltaFunc const * const m_DeltaFunc; 
-            double    const         m_DeltaAcc;  // Delta rounded to 
-                                                 // multiple of this
+            double    const         m_DeltaAcc;  // Delta accuracy
             // Monte-Carlo stats:
             long                    m_P;         // Total Paths Evaluated
             double                  m_sumPnL;    // Sum of PnL
@@ -68,10 +68,10 @@ namespace SiriusFM
                         m_irpB      != nullptr);
             }
 
-            void operator () (long           a_L,
-                              long           a_PM,
-                              double const * a_paths,
-                              double const * a_ts)
+            void operator () (long           a_L,     // Paths length
+                              long           a_PM,    // Paths in memory
+                              double const * a_paths, // Paths
+                              double const * a_ts)    // Timeline
             {
                 // If rates are not yet available, pre-compute them:
                 if (m_ratesA == nullptr)
@@ -80,7 +80,7 @@ namespace SiriusFM
                     for (long l = 0; l < a_L; ++l)
                     {
                         m_ratesA[l] = 
-                            m_irpA -> r(m_option -> m_assetA, a_ts[l]);
+                            m_irpA -> r(m_option -> AssetA(), a_ts[l]);
                     }
                 }
 
@@ -90,7 +90,7 @@ namespace SiriusFM
                     for (long l = 0; l < a_L; ++l)
                     {
                         m_ratesB[l] = 
-                            m_irpB -> r(m_option -> m_assetB, a_ts[l]);
+                            m_irpB -> r(m_option -> AssetB(), a_ts[l]);
                     }
                 }
 
@@ -100,9 +100,8 @@ namespace SiriusFM
                     double const * path = a_paths + p * a_L;
 
                     // Perform Delta-hedging along this path:
-                    double M      = - m_C0; // Long the Option, short C0:
-                                            //                  Curr Money
-                    double delta = 0.0;     // Curr delta
+                    double M  = - m_C0; // Long the Option, short C0: Curr Money
+                    double delta = 0.0; // Curr delta
                     
                     for (long l = 0; l < a_L; ++l)
                     {
@@ -114,7 +113,7 @@ namespace SiriusFM
                             // Manage the money account:
                             double tau = t - a_ts[l - 1];
                             double Sp  = path[l - 1];
-                            M += M * tau * m_ratesB[l - 1];
+                            M += M  * tau * m_ratesB[l - 1];
 
                             // Also dividents (wrt prev S)
                             M += Sp * tau * m_ratesA[l - 1];
@@ -189,7 +188,7 @@ namespace SiriusFM
         bool                      m_useTimerSeed;
 
     public:
-        // Non-Default Ctor
+        // Non-Default Constructor
         MCOptionHedger1D (Diffusion1D const * a_diff,
                           const char *        a_irsFileA,
                           const char *        a_irsFileB,
