@@ -29,17 +29,17 @@ namespace SiriusFM
             m_isAsian    (a_isAsian)
         {}
 
-        AssetClassA AssetA () const
+        AssetClassA GetAssetA () const
         {
             return m_assetA;
         }
 
-        AssetClassB AssetB () const
+        AssetClassB GetAssetB () const
         {
             return m_assetB;
         }
 
-        time_t ExpirTime () const
+        time_t GetExpirTime () const
         {
             return m_expirTime;
         }

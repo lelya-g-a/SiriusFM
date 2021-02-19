@@ -37,15 +37,16 @@ namespace SiriusFM
 
         // Using Simulate:
         m_mce.template Simulate <true> 
-            (a_t0, a_option -> ExpirTime(), a_tauMins, a_P, m_useTimerSeed,
-             m_diff, &m_irpA, &m_irpB, a_option -> AssetA(), 
-             a_option -> AssetB(), &pathEval);
+            (a_t0, a_option -> GetExpirTime(), a_tauMins, a_P, m_useTimerSeed,
+             m_diff, &m_irpA, &m_irpB, a_option -> GetAssetA(), 
+             a_option -> GetAssetB(), &pathEval);
 
         // Get the price from PathEval:
         double px = pathEval.GetPx();
 
         // Apply the Discount Factor on B:
-        px *= m_irpB.DF (a_option -> AssetB(), a_t0, a_option -> ExpirTime());
+        px *= m_irpB.DF (a_option -> GetAssetB(), a_t0, 
+                         a_option -> GetExpirTime());
         return px;
     }
 }

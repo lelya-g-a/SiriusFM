@@ -80,7 +80,7 @@ namespace SiriusFM
                     for (long l = 0; l < a_L; ++l)
                     {
                         m_ratesA[l] = 
-                            m_irpA -> r(m_option -> AssetA(), a_ts[l]);
+                            m_irpA -> r(m_option -> GetAssetA(), a_ts[l]);
                     }
                 }
 
@@ -90,7 +90,7 @@ namespace SiriusFM
                     for (long l = 0; l < a_L; ++l)
                     {
                         m_ratesB[l] = 
-                            m_irpB -> r(m_option -> AssetB(), a_ts[l]);
+                            m_irpB -> r(m_option -> GetAssetB(), a_ts[l]);
                     }
                 }
 

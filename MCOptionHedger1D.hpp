@@ -37,10 +37,10 @@ namespace SiriusFM
             (a_option, &m_irpA, &m_irpB, a_C0, a_DeltaFunc, a_DeltaAcc);
 
         // Run MC in REAL measure and return the stats:
-        m_mce.template Simulate <false> 
-            (a_t0, a_option -> ExpirTime(), a_tauMins, a_P, m_useTimerSeed,
-             m_diff, &m_irpA, &m_irpB, a_option -> AssetA(), 
-             a_option -> AssetB(), &pathEval);
+        m_mce.template Simulate <true> 
+            (a_t0, a_option -> GetExpirTime(), a_tauMins, a_P, m_useTimerSeed,
+             m_diff, &m_irpA, &m_irpB, a_option -> GetAssetA(), 
+             a_option -> GetAssetB(), &pathEval);
 
         // Get PnL stats from PathEval:
         return pathEval.GetStats();

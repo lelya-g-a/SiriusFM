@@ -19,9 +19,10 @@ namespace SiriusFM
               typename BProvider,
               typename AssetClassA, 
               typename AssetClassB>
+    template <bool IsFwd>
     void GridNOP1D_S3_RKC1<Diffusion1D, AProvider, BProvider,
                            AssetClassA, AssetClassB>::
-    Run<false> 
+    Run
         (// Option and Pricing Params:
         Option <AssetClassA, AssetClassB> const* a_option,   // Option Spec
         Diffusion1D const*  a_diff,
@@ -42,27 +43,27 @@ namespace SiriusFM
         // As this is a Non-IR process, S0 must be positive:
         assert(a_S0 > 0); 
         
-        if (a_option -> m_isAsian)
+        if (a_option -> IsAsian())
         {
             throw std::invalid_argument 
                 ("Asian options are not supported by 1D Grid");
         }
 
-        if (IsFwd && a_option -> m_isAmerican)
+        if (IsFwd && a_option -> IsAmerican())
         {
-            throw std::invalid_argumentt
+            throw std::invalid_argument
                 ("American options not supported in Fwd");
         }
 
         m_isFwd = IsFwd;
 
         // Time to Option Expiration as Year Frac:
-        double TTE = YearFracInt(a_option->m_expirTime - a_t0);
+        double TTE = YearFracInt(a_option-> GetExpirTime() - a_t0);
 
         // Fill in the TimeLine:
         // Number of t intervals:
         long tauSecs = a_tauMins * 60;
-        long Mints   = (a_option->m_expirTime - a_t0) / tauSecs;
+        long Mints   = (a_option->GetExpirTime() - a_t0) / tauSecs;
 
         if (TTE <= 0 || Mints <= 0)
         {
@@ -93,8 +94,8 @@ namespace SiriusFM
             // Take rB(t)-rA(t) and cut the negative values, 
             // to make sure the grid
             // upper boundary is expanding with time:
-            double rA = m_irpA.r(a_option->m_assetA, t);
-            double rB = m_irpB.r(a_option->m_assetB, t);
+            double rA = m_irpA.r(a_option->GetAssetA(), t);
+            double rB = m_irpB.r(a_option->GetAssetB(), t);
             double rateDiff  = std::max<double>(rB - rA, 0);
 
             // Integrated rates:
@@ -191,8 +192,8 @@ namespace SiriusFM
                                  // Curr time layer to be filled in (j -1)
 
             double tj     = m_ts[j];
-            double rateAj = m_irpA.r (a_option -> m_assetA, tj);
-            double rateBj = m_irpB.r (a_option -> m_assetB, tj);
+            double rateAj = m_irpA.r (a_option -> GetAssetA(), tj);
+            double rateBj = m_irpB.r (a_option -> GetAssetB(), tj);
             double C1     = (rateBj - rateAj) / (2 * h); 
                             // Coeff in the Conv Term (Bwd only)
             fj1[0] = fa;    // Low Bound
@@ -222,19 +223,19 @@ namespace SiriusFM
                 else
                 {
                     DfDt = rateBj * fji              // Reactive Term
-                         - C1 * Si * (fjip1 - fjim1) // Conv Term
-                         - sigma * sigma / D2 * (fjip1 - 2 * fji + fjim1);
+                         - C1 * Si * (fjiP - fjiM) // Conv Term
+                         - sigma * sigma / D2 * (fjiP - 2 * fji + fjiM);
                 }
 
                 // Euler's method instead of RKC1:
                 fj1[i] = fji - tau * DfDt;
             }
 
-            fjm1[m_N - 1] = (!IsFwd && isNeumann) ? (fj1[m_N - 2] + UBC) : UBC;
+            fj1[m_N - 1] = (!IsFwd && isNeumann) ? (fj1[m_N - 2] + UBC) : UBC;
 
             // Grid allows us to price American options as well
             // (but only in Bwd)
-            if (a_option -> m_isAmerican)
+            if (a_option -> IsAmerican())
             {
                 assert(!IsFwd);
                 for (int i = 0; i < m_N; ++i)

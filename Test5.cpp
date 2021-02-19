@@ -25,9 +25,9 @@ int main(int argc, char** argv)
 	const char* OptType   = argv[3];
 	double K              = atof(argv[4]);
 	long   Tdays          = atol(argv[5]);
-  bool   isAmerican     = bool(atoi(argv[6]));
-  char const* ratesFile = argv[7];
-  int    NS             = atol(argv[8]);
+    bool   isAmerican     = bool(atoi(argv[6]));
+    char const* ratesFile = argv[7];
+    int    NS             = atol(argv[8]);
 	int    tauMins        = atoi(argv[9]);
 
 	assert(sigma > 0 && S0 > 0 && K > 0 && Tdays > 0 && NS > 0 && tauMins > 0);
@@ -37,34 +37,34 @@ int main(int argc, char** argv)
 
 	DiffusionGBM diff(0.0, sigma, S0);     // NB: Trend is irrelevant here, so 0
 
-  // Create the Option spec:
+    // Create the Option spec:
 	time_t t0  = time(nullptr);            // Abs Start Time
 	time_t T   = t0 + SEC_IN_DAY * Tdays;  // Abs Expir Time in Secs from Epoch
 
 	OptionFX const* opt = nullptr;
 
-  if (strcmp(OptType, "Call") == 0)
-		opt       = new CallOptionFX(ccyA, ccyB, K, T, isAmerican);
-  else
-	if (strcmp(OptType, "Put")  == 0)
-	  opt       = new PutOptionFX (ccyA, ccyB, K, T, isAmerican);
-  else
-		throw invalid_argument("Bad option type");
+    if (strcmp(OptType, "Call") == 0)
+		opt = new CallOptionFX(ccyA, ccyB, K, T, isAmerican);
+    else
+	    if (strcmp(OptType, "Put")  == 0)
+	        opt = new PutOptionFX (ccyA, ccyB, K, T, isAmerican);
+        else
+		    throw invalid_argument("Bad option type");
 
-  // Construct the Grid Pricer (with default Max Geometry):
-  GridNOP1D_S3_RKC1<decltype(diff), IRPConst, IRPConst, CcyE, CcyE>
-    grid(ratesFile, ratesFile);
+    // Construct the Grid Pricer (with default Max Geometry):
+    GridNOP1D_S3_RKC1<decltype(diff), IRPConst, IRPConst, CcyE, CcyE>
+        grid(ratesFile, ratesFile);
 
-  // Presto! Run Bwd Induction on the Grid (with default BFactor):
-  grid.Run<false>(opt, &diff, S0, t0, NS, tauMins);
+    // Presto! Run Bwd Induction on the Grid (with default BFactor):
+    grid.Run<false>(opt, &diff, S0, t0, NS, tauMins);
 
-  // Get the (px, delta, gamma) at t0:
-  auto   res   = grid.GetPxDeltaGamma0();
-  double px    = get<0>(res);
-  double delta = get<1>(res);
-  double gamma = get<2>(res);
-  cout << "Px=" << px << ", Delta=" << delta << ", Gamma=" << gamma << endl;
+    // Get the (px, delta, gamma) at t0:
+    auto   res   = grid.GetPxDeltaGamma0();
+    double px    = get<0>(res);
+    double delta = get<1>(res);
+    double gamma = get<2>(res);
+    cout << "Px=" << px << ", Delta=" << delta << ", Gamma=" << gamma << endl;
 
-  delete opt;
+    delete opt;
 	return 0;
 }

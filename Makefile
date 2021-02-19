@@ -1,12 +1,12 @@
 TARGET = run
 
-SOURCES = Test4 IRProviderConst
+SOURCES = Test5 IRProviderConst
 
 EXTLIBS =
 
 CXXFLAGS += -MP -MMD -fPIC
 CXXFLAGS += -std=c++17
-CXXFLAGS += -O0 -g
+CXXFLAGS += -O3
 
 #LDFLAGS += -fPIC
 #LDFLAGS += -pthread
@@ -32,7 +32,7 @@ $(OBJECTS_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $(realpath $<)
 
 $(TARGET) : $(OBJECTS_DIR) $(OBJECTS)
-	$(CXX) $(LDFLAGS) -o $(TARGET) $(OBJECTS) '-Wl,-(' $(EXTLIBS)
+	$(CXX) $(LDFLAGS) -o $(TARGET) $(OBJECTS)
 
 
 

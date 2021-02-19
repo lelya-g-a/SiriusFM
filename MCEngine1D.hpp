@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <cassert>
 #include <random>
 #include "MCEngine1D.h"
@@ -170,7 +171,6 @@ namespace SiriusFM
             
             // Evaluate the in-memory paths:
             (* a_pathEval)(L, PM, m_paths, m_ts);
-
         } // End of i Loop
     }
 }
