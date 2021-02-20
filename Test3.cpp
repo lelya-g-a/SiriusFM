@@ -34,8 +34,8 @@ int main(int argc, char** argv)
 	CcyE ccyA = CcyE::USD;
 	CcyE ccyB = CcyE::USD;
 
-	char const* ratesFileA = nullptr; //todo
-	char const* ratesFileB = nullptr; //todo
+	char const* ratesFileA = "rates"; //todo
+	char const* ratesFileB = "rates"; //todo
 	bool useTimerSeed      = true;    //to read from file
 
     DiffusionGBM diff(mu, sigma, S0);
@@ -62,7 +62,7 @@ int main(int argc, char** argv)
 
 	double px = Pricer.Px(opt, t0, tau_mins, P);
 
-    std::cout << px << std::endl;
+    std::cout << "Px = " << px << std::endl;
 
 	delete opt;
 	return 0;
